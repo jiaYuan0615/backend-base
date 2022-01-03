@@ -12,6 +12,7 @@ import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
 import _ from 'lodash';
 import helmet from 'helmet';
+import nocache from 'nocache';
 import index from './routes';
 import env from './config/env';
 
@@ -24,6 +25,8 @@ const app = express();
  * 使用中介層
  */
 app.use(helmet());
+app.use(helmet.contentSecurityPolicy());
+app.use(nocache())
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
