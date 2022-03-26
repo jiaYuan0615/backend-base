@@ -1,3 +1,5 @@
+import 'dotenv/config';
+
 const env = {
   Env: process.env.APP_ENV,
   Host: process.env.APP_HOST,

@@ -1,5 +1,9 @@
 /* eslint-disable no-unused-expressions */
+/* eslint-disable import/no-dynamic-require */
+/* eslint-disable global-require */
 import randomstring from 'randomstring';
+import fs from 'fs';
+import path from 'path';
 import _ from 'lodash';
 
 class GlobalService {
@@ -43,6 +47,39 @@ class GlobalService {
     });
     return random;
   };
+
+  /**
+   *
+   * @param {string} folder
+   * @param {string} middlewareFolder
+   * @returns {Array}
+   */
+  yieldRoutePath = (folder, middlewareFolder = null) => {
+    const payload = [];
+    let middleware;
+    fs.readdirSync(folder)
+      .filter((file) => (file.indexOf('.') !== 0) && (file.slice(-3) === '.js'))
+      .forEach((file) => {
+        const controller = require(path.resolve(folder, file)).default;
+        payload.push({
+          route: `/${file.replace('.js', '')}`,
+          controller,
+        });
+      });
+    if (middlewareFolder) {
+      fs.readdirSync(middlewareFolder)
+        .filter((file) => (file.indexOf('.') !== 0) && (file.slice(-3) === '.js') && (file.indexOf('admin') > -1))
+        .forEach((file) => {
+          middleware = require(path.resolve(middlewareFolder, file)).default;
+        });
+      return _.map(payload, (x) => ({
+        ...x,
+        route: `/private${x.route}`,
+        middleware,
+      }));
+    }
+    return payload;
+  }
 }
 
 export default new GlobalService();

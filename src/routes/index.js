@@ -1,20 +1,33 @@
 import { Router } from 'express';
+import _ from 'lodash';
+import path from 'path';
 
-import image from './public/image';
-import privateImage from './private/image';
-
-import AdminMiddleware from '../middlewares/admin';
+import GlobalService from '../services/global';
 
 const router = Router();
+
+const publicFolder = path.resolve(__dirname, './public');
+const publicPath = GlobalService.yieldRoutePath(publicFolder);
+
+const privateFolder = path.resolve(__dirname, './private');
+// 預設情況為使用者與管理者表分開
+const middlewareFolder = path.resolve(__dirname, '../middlewares');
+const privatePath = GlobalService.yieldRoutePath(privateFolder, middlewareFolder);
 
 /**
  * public
  */
-router.use('/image', image);
+publicPath.map((data) => {
+  const { route, controller } = data;
+  return _.isUndefined(controller) ? null : router.use(route, controller);
+});
 
 /**
  * private
  */
-router.use('/private/image', AdminMiddleware.authenticate, privateImage);
+privatePath.map((data) => {
+  const { route, controller, middleware } = data;
+  return _.isUndefined(controller) ? null : router.use(route, middleware.authenticate, controller);
+});
 
 export default router;

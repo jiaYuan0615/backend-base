@@ -20,6 +20,7 @@ export default (sequelize, DataTypes) => {
   }, {
     sequelize,
     modelName: 'images',
+    timestamps: true,
     freezeTableName: true,
   });
   return images;

@@ -1,4 +1,4 @@
-import _ from 'lodash';
+import _, { toNumber } from 'lodash';
 import env from './env';
 
 const {
@@ -18,9 +18,9 @@ module.exports = {
   development: {
     username: DatabaseUsername,
     password: DatabasePassword,
-    database: Database,
+    database: `dev${_.capitalize(Database)}`,
     host: DatabaseHost,
-    port: _.toNumber(DatabasePort),
+    port: toNumber(DatabasePort),
     dialect: DatabaseDialect,
     logging,
     operatorsAliases: DatabaseOperator,
@@ -28,9 +28,9 @@ module.exports = {
   test: {
     username: DatabaseUsername,
     password: DatabasePassword,
-    database: Database,
+    database: `Test${_.capitalize(Database)}`,
     host: DatabaseHost,
-    port: _.toNumber(DatabasePort),
+    port: toNumber(DatabasePort),
     dialect: DatabaseDialect,
     logging,
     operatorsAliases: DatabaseOperator,
@@ -40,7 +40,7 @@ module.exports = {
     password: DatabasePassword,
     database: Database,
     host: DatabaseHost,
-    port: _.toNumber(DatabasePort),
+    port: toNumber(DatabasePort),
     dialect: DatabaseDialect,
     logging,
     operatorsAliases: DatabaseOperator,
