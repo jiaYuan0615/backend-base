@@ -26,7 +26,7 @@ const app = express();
  */
 app.use(helmet());
 app.use(helmet.contentSecurityPolicy());
-app.use(nocache())
+app.use(nocache());
 app.use(compression());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));

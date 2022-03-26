@@ -1,5 +1,3 @@
-require('dotenv').config();
-
 const env = {
   Env: process.env.APP_ENV,
   Host: process.env.APP_HOST,
@@ -19,7 +17,6 @@ const env = {
   FacebookLoginSecret: process.env.FB_CLIENT_SECRET,
   GoogleLogin: process.env.GOOGLE_CLIENT_ID,
   GoogleLoginSecret: process.env.GOOGLE_CLIENT_SECRET,
-
 };
 
 export default env;

@@ -27,9 +27,9 @@ class UploadMiddleware {
   uploadFile = multer({ storage });
 
   transferSingleFileToWebp = async (req, res, next) => {
-    const { path: paths, filename, destination } = req.file;
+    const { path: paths, filename, destination, originalname } = req.file;
     // yield webpFile
-    const transferFile = filename.replace('.jpg', '.webp');
+    const transferFile = filename.replace(_.toLower(path.extname(originalname)), '.webp');
     const targetPath = path.resolve(destination, transferFile);
     await cwebp(paths, targetPath, '-q 80');
     const { size } = fs.statSync(targetPath);
@@ -51,8 +51,8 @@ class UploadMiddleware {
     const { files } = req;
     await Promise.all(_.map(Object.keys(files), async (key) => {
       payload[key] = await Promise.all(_.map(files[key], async (v) => {
-        const { path: paths, filename, destination } = v;
-        const transferFile = filename.replace('.jpg', '.webp');
+        const { path: paths, filename, destination, originalname } = v;
+        const transferFile = filename.replace(_.toLower(path.extname(originalname)), '.webp');
         const targetPath = path.resolve(destination, transferFile);
         await cwebp(paths, targetPath, '-q 80');
         const { size } = fs.statSync(targetPath);
