@@ -56,16 +56,20 @@ app.use(passport.session());
 const swaggerOptions = {
   definition: {
     info: {
-      title: '技術文件',
+      title: 'API 文件',
       version: '1.0.0',
-      description: '介接後端 API 技術文件',
+      description: '後端 API 文件',
     },
   },
-  apis: ['src/routes/*.js', 'src/models/*.js'],
+  apis: [
+    'src/routes/public/*.js',
+    'src/routes/private/*.js',
+    'src/models/*.js',
+  ],
 };
 const swaggerDocuments = swaggerJsdoc(swaggerOptions);
 
-app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocuments));
+app.use('/docs', swaggerUi.serve, swaggerUi.setup(swaggerDocuments));
 
 /**
  * 定義路由
