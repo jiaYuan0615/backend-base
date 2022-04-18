@@ -1,7 +1,8 @@
 # backend-base
 
-NodeJS Version v14.15.4
-NPM Version 6.14.10
+NodeJS 版本 v14.15.4
+
+npm 版本 6.14.10
 
 ## 安裝套件
 ```bash
